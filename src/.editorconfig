@@ -42,9 +42,6 @@ dotnet_diagnostic.CA2000.severity = suggestion
 # CA2002: Do not lock on objects with weak identity
 dotnet_diagnostic.CA2002.severity = error
 
-# CA2007: Consider calling ConfigureAwait on the awaited task
-dotnet_diagnostic.CA2007.severity = error
-
 # CA2008: Do not create tasks without passing a TaskScheduler
 dotnet_diagnostic.CA2008.severity = error
 
