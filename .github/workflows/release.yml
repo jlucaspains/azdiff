@@ -28,4 +28,4 @@ jobs:
           echo $VERSION
           dotnet pack /p:Version="$VERSION" -c Release -o out --no-restore
       - name: Push package to Nuget
-        run: dotnet nuget push ./src/azdiff/out/*.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push ./out/*.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
