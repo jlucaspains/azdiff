@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FD28D2FE-DF3F-4B79-913B-66CB8D543122}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "azdiff", "src\azdiff\azdiff.csproj", "{0249373D-B6C6-4B8F-9886-C0A61B6F526A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DA7E875E-1CC0-42CA-ADA6-1123FA80F762}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azdiff.tests", "test\azdiff.tests\azdiff.tests.csproj", "{FB97FD08-388A-4496-A559-01C7DC66F9B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0249373D-B6C6-4B8F-9886-C0A61B6F526A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0249373D-B6C6-4B8F-9886-C0A61B6F526A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0249373D-B6C6-4B8F-9886-C0A61B6F526A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0249373D-B6C6-4B8F-9886-C0A61B6F526A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB97FD08-388A-4496-A559-01C7DC66F9B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB97FD08-388A-4496-A559-01C7DC66F9B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB97FD08-388A-4496-A559-01C7DC66F9B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB97FD08-388A-4496-A559-01C7DC66F9B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0249373D-B6C6-4B8F-9886-C0A61B6F526A} = {FD28D2FE-DF3F-4B79-913B-66CB8D543122}
+		{FB97FD08-388A-4496-A559-01C7DC66F9B7} = {DA7E875E-1CC0-42CA-ADA6-1123FA80F762}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B01B9923-C259-41AD-A299-D86BD49312A3}
+	EndGlobalSection
+EndGlobal
