@@ -8,6 +8,13 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>azdiff</ToolCommandName>
     <InternalsVisibleTo>azdiff.tests</InternalsVisibleTo>
+    <Version>1.0.0-alpha1</Version>
+    <PackageId>lpains.azdiff</PackageId>
+    <Authors>Lucas Pains</Authors>
+    <PackageProjectUrl>https://github.com/jlucaspains/azdiff</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageDescription>DotNet CLI tool for comparing azure resources accross resource groups and subscriptions.</PackageDescription>
+    <RepositoryUrl>https://github.com/jlucaspains/azdiff</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
