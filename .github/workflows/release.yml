@@ -20,7 +20,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Get Version
-        run: 
+        run: |
           TAG=v1.0.0-alpha1
           echo "VERSION=${TAG#v}" >> $GITHUB_ENV
           echo ${env:VERSION}
