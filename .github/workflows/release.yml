@@ -19,7 +19,11 @@ jobs:
           dotnet-version: 8.0.x
       - name: Restore dependencies
         run: dotnet restore
+      - name: Get Version
+        run: 
+          TAG=${{ github.event.release.tag_name }}
+          echo "VERSION=${TAG#v}" >> $GITHUB_ENV
       - name: Build
-        run: dotnet pack -c Release -o out --no-restore
+        run: dotnet pack /p:Version=${ VERSION } -c Release -o out --no-restore
       - name: Push package to Nuget
         run: dotnet nuget push ./src/azdiff/out/*.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
