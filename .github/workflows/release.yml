@@ -23,8 +23,9 @@ jobs:
         run: |
           TAG="v1.0.0-alpha1"
           echo "VERSION=${TAG#v}" >> $GITHUB_ENV
-          echo ${env:VERSION}
       - name: Build
-        run: dotnet pack /p:Version=${env:VERSION} -c Release -o out --no-restore
+        run: |
+          echo ${env:VERSION}
+          dotnet pack /p:Version="${env:VERSION}" -c Release -o out --no-restore
       - name: Push package to Nuget
         run: dotnet nuget push ./src/azdiff/out/*.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
