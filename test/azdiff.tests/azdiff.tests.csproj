@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\azdiff\azdiff.csproj" />
+    <ProjectReference Include="..\..\src\azdiff\azdiff.csproj" />
   </ItemGroup>
 
 </Project>
