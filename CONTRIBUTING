@@ -1,0 +1,41 @@
+# Contributing to azdiff
+You can greatly help this project by:
+
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
+
+## We Use [Github Flow](https://docs.github.com/en/get-started/quickstart/github-flow)
+That means that All Code Changes Happen Through Pull Requests. We actively welcome your pull requests:
+
+1. Fork the repo and create your branch from `main`.
+2. If you've added code, add tests.
+3. If you've changed APIs, update the documentation.
+4. Ensure the test suite passes.
+5. Make sure your code doesn't create warnings by dotnet compiler or SonarCloud.
+6. Send the pull request!
+
+## Report bugs using [Github issues](https://github.com/jlucaspains/azdiff/issues)
+We use GitHub issues to track public bugs.
+
+## Request enhancements using [Github issues](https://github.com/jlucaspains/azdiff/issues)
+We also use GitHub issues to track enhancements.
+
+## Write bug reports with detail, background, and sample code
+**Great Bug Reports** tend to have:
+
+- A quick summary and/or background
+- Steps to reproduce
+  - Be specific!
+  - Give sample code if you can.
+- What you expected would happen
+- What actually happens
+- Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
+
+## Use .NET default Coding Style
+The default .NET coding style which is enforced by VS and VS Code should be used.
+
+## License
+By contributing, you agree that your contributions will be licensed under the MIT License.
