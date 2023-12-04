@@ -1,5 +1,5 @@
 # azdiff
-An Azure resource group deep comparison via ARM templates.
+`azdiff` is a command-line tool designed to perform deep comparisons between Azure resources.
 
 ## Installation
 ```powershell
@@ -7,14 +7,12 @@ dotnet tool install --global lpains.azdiff --prerelease
 ```
 
 ## General usage
-Once installed, you may access the tool by running `azdiff` in your terminal. See next sections for more information on each command or refer to the CLI help via `azdiff -h`.
+Upon installation, access the tool by executing `azdiff` in your terminal. For specific command details, refer to the sections below or utilize the CLI help via `azdiff -h`.
 
-In general, the commands provided will require at least a source and a target and will output one diff file per resource identified and compared.
+The commands provided typically require a source and a target, generating a distinct `.diff` file for each identified and compared resource.
 
 ## azdiff arm
-Compare two ARM template files. 
-
-For each Azure Resource identified in the template file, a `.diff` file is created with the differences between the source and target. The file name is the resource name and the content is the diff output.
+Facilitates the comparison between two ARM template files, analyzing Azure resources present in each file and generating one `.diff` file per resource illustrating the differences between the source and target resources.
 
 ```powershell
   azdiff arm --sourceFile
@@ -41,7 +39,7 @@ azdiff arm --sourceFile .\source.json `
            --replaceStringsFile .\replaceStrings.json
 ```
 
-Output file:
+Output file (diff_stapp-blog-centralus-001.diff):
 ```diff
   {
     "type": "Microsoft.Web/staticSites",
@@ -84,7 +82,7 @@ A list of types to ignore in the ARM comparison. You may use this option multipl
 
 #### `--replaceStringsFile`
 
-Replacement strings json file. The json must be a collection of replacements like the example below:
+JSON file containing replacement strings. Example:
 
 ```json
 [
@@ -96,4 +94,4 @@ Replacement strings json file. The json must be a collection of replacements lik
 ]
 ```
 
-You may use Name to replace parts of the name property of a resource or Body to replace parts in the overal json of the resource. This is particularly useful when dealing with environment comparison (e.g.: DEV vs TEST) where the resource names or parts of its json will differ in a predictable way.
+The `target` property indicates whether the name (target: Name) property or the whole file (target: Body) will apply replacements. This is particularly useful when dealing with environment comparison (e.g.: DEV vs TEST) where the resource names or parts of its json will differ in a predictable way.
