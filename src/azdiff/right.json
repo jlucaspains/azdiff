@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/staticSites",
+            "apiVersion": "2023-01-01",
+            "name": "stapp-blog-centralus-001",
+            "location": "Central US",
+            "sku": {
+                "name": "Free",
+                "tier": "Free"
+            },
+            "properties": {
+                "repositoryUrl": "https://github.com/jlucaspains/blog-v2",
+                "branch": "release/v1",
+                "stagingEnvironmentPolicy": "Enabled",
+                "allowConfigFileUpdates": true,
+                "provider": "GitHub",
+                "enterpriseGradeCdnStatus": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Web/staticSites/customDomains",
+            "apiVersion": "2023-01-01",
+            "name": "stapp-blog-centralus-001/blog.lpains.dev",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/staticSites', 'stapp-blog-centralus-001')]"
+            ],
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Web/staticSites/customDomains",
+            "apiVersion": "2023-01-01",
+            "name": "stapp-blog-centralus-001/blog.lpains.net",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/staticSites', 'stapp-blog-centralus-001')]"
+            ],
+            "properties": {}
+        }
+    ]
+}

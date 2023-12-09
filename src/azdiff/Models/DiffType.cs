@@ -1,3 +1,5 @@
+namespace azdiff;
+
 enum DiffType
 {
     MissingOnTarget,

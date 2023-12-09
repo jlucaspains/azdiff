@@ -1,11 +1,12 @@
 namespace azdiff.tests;
 
-public class ArmComparerTests
+public class ArmTemplateComparerTests
 {
     [Fact]
     public void EmptySourceReturnsEmptyResult()
     {
-        var result = ArmComparer.DiffArmTemplates("", "{}", [], []);
+        var comparer = new ArmTemplateComparer(); 
+        var result = comparer.DiffArmTemplates("", "{}", [], []);
 
         Assert.Empty(result);
     }
@@ -13,7 +14,8 @@ public class ArmComparerTests
     [Fact]
     public void EmptyTargetReturnsEmptyResult()
     {
-        var result = ArmComparer.DiffArmTemplates("{}", "", [], []);
+        var comparer = new ArmTemplateComparer(); 
+        var result = comparer.DiffArmTemplates("{}", "", [], []);
 
         Assert.Empty(result);
     }
@@ -44,7 +46,8 @@ public class ArmComparerTests
         }
     ]
 }";
-        var result = ArmComparer.DiffArmTemplates(left, right, [], []);
+        var comparer = new ArmTemplateComparer();
+        var result = comparer.DiffArmTemplates(left, right, [], []);
 
         Assert.True(result.Count() == 1);
         Assert.Equal("stapp-blog-centralus-001", result.First().Name);
@@ -72,7 +75,8 @@ public class ArmComparerTests
 {
     ""resources"": []
 }";
-        var result = ArmComparer.DiffArmTemplates(left, right, [], []);
+        var comparer = new ArmTemplateComparer();
+        var result = comparer.DiffArmTemplates(left, right, [], []);
 
         Console.WriteLine(result);
         Assert.True(result.Count() == 1);
@@ -80,7 +84,7 @@ public class ArmComparerTests
         Assert.Equal(DiffType.MissingOnTarget, result.First().DiffType);
         Assert.Contains("  \"location\": \"Central US\"", result.First().Result);
     }
-    
+
     [Fact]
     public void CompareReturnsExtra()
     {
@@ -100,7 +104,8 @@ public class ArmComparerTests
         }
     ]
 }";
-        var result = ArmComparer.DiffArmTemplates(left, right, [], []);
+        var comparer = new ArmTemplateComparer();
+        var result = comparer.DiffArmTemplates(left, right, [], []);
 
         Assert.True(result.Count() == 1);
         Assert.Equal("stapp-blog-centralus-001", result.First().Name);
@@ -134,7 +139,8 @@ public class ArmComparerTests
         }
     ]
 }";
-        var result = ArmComparer.DiffArmTemplates(left, right, [], [
+        var comparer = new ArmTemplateComparer();
+        var result = comparer.DiffArmTemplates(left, right, [], [
             new ReplaceText(ReplaceTextTarget.Name, "dev", "env"),
             new ReplaceText(ReplaceTextTarget.Name, "test", "env")
         ]);
@@ -172,14 +178,15 @@ public class ArmComparerTests
         }
     ]
 }";
-        var result = ArmComparer.DiffArmTemplates(left, right, [
+        var comparer = new ArmTemplateComparer();
+        var result = comparer.DiffArmTemplates(left, right, [
             "Microsoft.Web/staticSites"
         ], []);
 
         Assert.Empty(result);
     }
 
-    
+
     [Fact]
     public void CompareBadJson()
     {
@@ -192,7 +199,8 @@ public class ArmComparerTests
 {
     ""resources"":
 }";
-        var result = ArmComparer.DiffArmTemplates(left, right, [], []);
+        var comparer = new ArmTemplateComparer();
+        var result = comparer.DiffArmTemplates(left, right, [], []);
 
         Assert.Empty(result);
     }

@@ -1,0 +1,428 @@
+SF:D:\azdiff\src\azdiff\Commands\ArmTemplateComparer.cs
+FN:11,System.Collections.Generic.IEnumerable`1<azdiff.DiffResult> azdiff.ArmTemplateComparer::DiffArmTemplates(System.String,System.String,System.Collections.Generic.IEnumerable`1<System.String>,System.Collections.Generic.IEnumerable`1<azdiff.ReplaceText>)
+FNDA:13,System.Collections.Generic.IEnumerable`1<azdiff.DiffResult> azdiff.ArmTemplateComparer::DiffArmTemplates(System.String,System.String,System.Collections.Generic.IEnumerable`1<System.String>,System.Collections.Generic.IEnumerable`1<azdiff.ReplaceText>)
+DA:12,13
+DA:13,13
+DA:15,13
+DA:16,13
+DA:17,13
+DA:18,13
+DA:20,47
+DA:21,4
+DA:22,4
+DA:23,4
+DA:25,4
+DA:26,3
+DA:27,3
+DA:29,3
+DA:30,3
+DA:32,3
+DA:33,3
+DA:35,3
+DA:36,3
+DA:38,3
+DA:40,3
+DA:41,3
+DA:43,3
+DA:44,3
+DA:46,1
+DA:47,1
+DA:48,1
+DA:49,1
+DA:50,4
+DA:52,41
+DA:53,1
+DA:54,1
+DA:55,1
+DA:56,1
+DA:58,1
+DA:59,1
+DA:61,13
+DA:62,13
+BRDA:20,331,1,4
+BRDA:23,106,0,0
+BRDA:23,106,1,4
+BRDA:23,119,0,0
+BRDA:23,119,1,4
+BRDA:25,143,0,3
+BRDA:40,248,0,3
+BRDA:40,248,1,3
+BRDA:25,143,1,1
+BRDA:20,331,0,13
+BRDA:52,470,1,1
+BRDA:55,407,0,0
+BRDA:55,407,1,1
+BRDA:55,420,0,0
+BRDA:55,420,1,1
+BRDA:52,470,0,13
+FN:64,System.String azdiff.ArmTemplateComparer::MakeDiffResult(DiffPlex.DiffBuilder.Model.DiffPaneModel)
+FNDA:3,System.String azdiff.ArmTemplateComparer::MakeDiffResult(DiffPlex.DiffBuilder.Model.DiffPaneModel)
+DA:65,3
+DA:66,3
+DA:67,51
+DA:68,21
+DA:69,21
+DA:70,21
+DA:71,3
+DA:72,3
+DA:73,15
+DA:74,21
+DA:75,21
+DA:76,21
+DA:78,3
+DA:79,3
+BRDA:67,146,1,21
+BRDA:69,46,0,18
+BRDA:69,53,1,3
+BRDA:69,46,1,3
+BRDA:69,53,0,15
+BRDA:67,146,0,3
+FN:81,System.String azdiff.ArmTemplateComparer::MakeFileNameSafe(System.String)
+FNDA:5,System.String azdiff.ArmTemplateComparer::MakeFileNameSafe(System.String)
+DA:82,5
+DA:83,5
+DA:84,210
+DA:85,5
+FN:87,System.String azdiff.ArmTemplateComparer::ReplaceText(System.String,azdiff.ReplaceTextTarget,System.Collections.Generic.IEnumerable`1<azdiff.ReplaceText>)
+FNDA:14,System.String azdiff.ArmTemplateComparer::ReplaceText(System.String,azdiff.ReplaceTextTarget,System.Collections.Generic.IEnumerable`1<azdiff.ReplaceText>)
+DA:88,14
+DA:89,20
+DA:90,46
+DA:91,6
+DA:92,6
+DA:93,6
+DA:95,14
+DA:96,14
+BRDA:90,23,0,14
+BRDA:90,23,1,14
+BRDA:90,105,1,6
+BRDA:90,105,0,14
+FN:98,System.Collections.Generic.List`1<Newtonsoft.Json.Linq.JObject> azdiff.ArmTemplateComparer::TryDeserializeArmJson(System.String)
+FNDA:26,System.Collections.Generic.List`1<Newtonsoft.Json.Linq.JObject> azdiff.ArmTemplateComparer::TryDeserializeArmJson(System.String)
+DA:99,26
+DA:101,26
+DA:102,26
+DA:104,26
+DA:106,24
+DA:108,2
+DA:109,2
+DA:110,2
+DA:112,26
+BRDA:106,22,0,2
+BRDA:106,22,1,22
+BRDA:106,34,0,12
+BRDA:106,34,1,24
+FN:114,System.Collections.Generic.Dictionary`2<System.String,Newtonsoft.Json.Linq.JObject> azdiff.ArmTemplateComparer::GetArmResourceDictionary(System.Collections.Generic.IEnumerable`1<Newtonsoft.Json.Linq.JObject>,System.Collections.Generic.IEnumerable`1<System.String>,System.Collections.Generic.IEnumerable`1<azdiff.ReplaceText>)
+FNDA:26,System.Collections.Generic.Dictionary`2<System.String,Newtonsoft.Json.Linq.JObject> azdiff.ArmTemplateComparer::GetArmResourceDictionary(System.Collections.Generic.IEnumerable`1<Newtonsoft.Json.Linq.JObject>,System.Collections.Generic.IEnumerable`1<System.String>,System.Collections.Generic.IEnumerable`1<azdiff.ReplaceText>)
+DA:115,26
+DA:116,26
+DA:117,98
+DA:118,10
+DA:119,10
+DA:120,10
+DA:122,10
+DA:123,2
+DA:125,8
+DA:126,8
+DA:127,8
+DA:128,8
+DA:130,26
+DA:131,26
+BRDA:117,198,1,10
+BRDA:122,58,0,0
+BRDA:122,58,1,10
+BRDA:122,78,1,8
+BRDA:125,84,0,0
+BRDA:125,84,1,8
+BRDA:125,97,0,0
+BRDA:125,97,1,8
+BRDA:126,116,1,8
+BRDA:126,116,0,8
+BRDA:122,78,0,36
+BRDA:117,198,0,26
+LF:87
+LH:87
+BRF:42
+BRH:35
+FNF:6
+FNH:6
+end_of_record
+SF:D:\azdiff\src\azdiff\Commands\AzureTemplateLoader.cs
+FN:14,System.Void azdiff.AzureTemplateLoader/<GetArmTemplateAsync>d__0::MoveNext()
+FNDA:0,System.Void azdiff.AzureTemplateLoader/<GetArmTemplateAsync>d__0::MoveNext()
+DA:15,0
+DA:16,0
+DA:17,0
+DA:18,0
+DA:19,0
+DA:21,0
+DA:22,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:28,0
+DA:29,0
+LF:13
+LH:0
+BRF:0
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:D:\azdiff\src\azdiff\Commands\BaseDiffCommand.cs
+FN:7,System.ValueTuple`2<System.Collections.Generic.List`1<azdiff.ReplaceText>,System.Int32> azdiff.BaseDiffCommand::PrepareReplaceStrings(System.IO.FileInfo)
+FNDA:9,System.ValueTuple`2<System.Collections.Generic.List`1<azdiff.ReplaceText>,System.Int32> azdiff.BaseDiffCommand::PrepareReplaceStrings(System.IO.FileInfo)
+DA:8,9
+DA:9,9
+DA:11,9
+DA:12,6
+DA:13,6
+DA:14,2
+DA:15,2
+DA:16,2
+DA:19,4
+DA:21,4
+DA:22,2
+DA:23,2
+DA:24,2
+DA:26,2
+DA:28,5
+DA:29,9
+BRDA:11,13,0,6
+BRDA:13,27,0,2
+BRDA:13,27,1,4
+BRDA:21,72,0,2
+BRDA:21,72,1,2
+BRDA:11,13,1,5
+FN:32,System.Collections.Generic.List`1<azdiff.ReplaceText> azdiff.BaseDiffCommand::GetReplaceStrings(System.IO.FileInfo)
+FNDA:4,System.Collections.Generic.List`1<azdiff.ReplaceText> azdiff.BaseDiffCommand::GetReplaceStrings(System.IO.FileInfo)
+DA:33,4
+DA:35,4
+DA:36,4
+DA:38,4
+DA:39,4
+DA:41,1
+DA:42,1
+DA:43,1
+DA:45,4
+BRDA:38,21,0,1
+BRDA:38,21,1,3
+FN:47,System.Void azdiff.BaseDiffCommand/<WriteResultToFiles>d__2::MoveNext()
+FNDA:5,System.Void azdiff.BaseDiffCommand/<WriteResultToFiles>d__2::MoveNext()
+DA:48,5
+DA:49,17
+DA:50,1
+DA:51,1
+DA:52,1
+DA:53,1
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,1
+DA:59,1
+DA:60,1
+DA:61,5
+BRDA:49,388,1,1
+BRDA:51,96,3,1
+BRDA:51,96,1,0
+BRDA:51,96,2,0
+BRDA:51,96,0,0
+BRDA:49,388,0,5
+LF:38
+LH:35
+BRF:14
+BRH:11
+FNF:3
+FNH:3
+end_of_record
+SF:D:\azdiff\src\azdiff\Commands\JsonFileDiffCommand.cs
+FN:2,System.Void azdiff.JsonFileDiffCommand::.ctor(azdiff.ArmTemplateComparer)
+FNDA:6,System.Void azdiff.JsonFileDiffCommand::.ctor(azdiff.ArmTemplateComparer)
+DA:3,6
+FN:5,System.Void azdiff.JsonFileDiffCommand/<CompareJsonFiles>d__2::MoveNext()
+FNDA:6,System.Void azdiff.JsonFileDiffCommand/<CompareJsonFiles>d__2::MoveNext()
+DA:6,6
+DA:7,6
+DA:8,1
+DA:9,1
+DA:10,1
+DA:13,5
+DA:14,1
+DA:15,1
+DA:16,1
+DA:19,4
+DA:20,4
+DA:21,4
+DA:23,4
+DA:25,4
+DA:26,2
+DA:28,2
+DA:30,2
+DA:32,2
+DA:33,6
+BRDA:7,59,0,1
+BRDA:7,59,1,5
+BRDA:13,96,0,1
+BRDA:13,96,1,4
+BRDA:25,468,0,2
+BRDA:25,468,1,2
+BRDA:25,486,0,2
+BRDA:25,486,1,2
+BRDA:28,537,0,0
+BRDA:28,537,1,2
+LF:20
+LH:20
+BRF:10
+BRH:9
+FNF:2
+FNH:2
+end_of_record
+SF:D:\azdiff\src\azdiff\Commands\ResourceGroupDiffCommand.cs
+FN:2,System.Void azdiff.ResourceGroupDiffCommand::.ctor(azdiff.ArmTemplateComparer,azdiff.IAzureTemplateLoader)
+FNDA:7,System.Void azdiff.ResourceGroupDiffCommand::.ctor(azdiff.ArmTemplateComparer,azdiff.IAzureTemplateLoader)
+DA:3,7
+FN:5,System.Void azdiff.ResourceGroupDiffCommand/<CompareResourceGroups>d__3::MoveNext()
+FNDA:7,System.Void azdiff.ResourceGroupDiffCommand/<CompareResourceGroups>d__3::MoveNext()
+DA:6,7
+DA:7,7
+DA:8,1
+DA:9,1
+DA:10,1
+DA:13,6
+DA:14,1
+DA:15,1
+DA:16,1
+DA:19,5
+DA:20,5
+DA:21,5
+DA:23,5
+DA:25,5
+DA:26,2
+DA:28,3
+DA:30,3
+DA:32,3
+DA:34,3
+DA:36,3
+DA:37,7
+BRDA:7,56,0,1
+BRDA:7,56,1,6
+BRDA:13,90,0,1
+BRDA:13,90,1,5
+BRDA:25,454,0,3
+BRDA:25,454,1,2
+BRDA:25,472,0,2
+BRDA:25,472,1,3
+BRDA:30,534,0,0
+BRDA:30,534,1,3
+LF:22
+LH:22
+BRF:10
+BRH:9
+FNF:2
+FNH:2
+end_of_record
+SF:D:\azdiff\src\azdiff\Models\DiffResult.cs
+FN:2,azdiff.DiffType azdiff.DiffResult::get_DiffType()
+FNDA:22,azdiff.DiffType azdiff.DiffResult::get_DiffType()
+DA:3,22
+LF:1
+LH:1
+BRF:0
+BRH:0
+FNF:1
+FNH:1
+end_of_record
+SF:D:\azdiff\src\azdiff\Models\ReplaceText.cs
+FN:8,azdiff.ReplaceTextTarget azdiff.ReplaceText::get_Target()
+FNDA:34,azdiff.ReplaceTextTarget azdiff.ReplaceText::get_Target()
+DA:9,34
+LF:1
+LH:1
+BRF:0
+BRH:0
+FNF:1
+FNH:1
+end_of_record
+SF:D:\azdiff\src\azdiff\Program.cs
+FN:69,azdiff.ArmTemplateComparer azdiff.Program::get_ArmTemplateComparer()
+FNDA:3,azdiff.ArmTemplateComparer azdiff.Program::get_ArmTemplateComparer()
+DA:70,3
+FN:70,azdiff.IAzureTemplateLoader azdiff.Program::get_AzureTemplateLoader()
+FNDA:3,azdiff.IAzureTemplateLoader azdiff.Program::get_AzureTemplateLoader()
+DA:71,3
+FN:38,System.IO.DirectoryInfo azdiff.Program/<>c::<Main>b__0_0()
+FNDA:5,System.IO.DirectoryInfo azdiff.Program/<>c::<Main>b__0_0()
+DA:39,5
+FN:73,System.Void azdiff.Program/<CompareArmTemplateFiles>d__9::MoveNext()
+FNDA:1,System.Void azdiff.Program/<CompareArmTemplateFiles>d__9::MoveNext()
+DA:74,1
+DA:75,1
+DA:76,1
+DA:77,1
+FN:79,System.Void azdiff.Program/<CompareResourceGroups>d__10::MoveNext()
+FNDA:1,System.Void azdiff.Program/<CompareResourceGroups>d__10::MoveNext()
+DA:80,1
+DA:81,1
+DA:82,1
+DA:83,1
+FN:7,System.Void azdiff.Program/<Main>d__0::MoveNext()
+FNDA:3,System.Void azdiff.Program/<Main>d__0::MoveNext()
+DA:8,3
+DA:9,3
+DA:10,3
+DA:11,3
+DA:13,3
+DA:14,3
+DA:16,3
+DA:17,3
+DA:18,3
+DA:19,3
+DA:21,3
+DA:22,3
+DA:23,3
+DA:24,3
+DA:26,3
+DA:27,3
+DA:28,3
+DA:29,3
+DA:31,3
+DA:32,3
+DA:33,3
+DA:34,3
+DA:36,3
+DA:37,3
+DA:38,3
+DA:41,3
+DA:42,3
+DA:43,3
+DA:45,3
+DA:46,3
+DA:47,3
+DA:49,3
+DA:50,3
+DA:51,3
+DA:52,3
+DA:53,3
+DA:55,3
+DA:56,3
+DA:57,3
+DA:58,3
+DA:59,3
+DA:61,3
+DA:62,3
+DA:64,3
+DA:65,3
+DA:67,3
+DA:68,3
+BRDA:61,514,0,1
+BRDA:61,514,1,3
+BRDA:64,583,0,1
+BRDA:64,583,1,3
+LF:58
+LH:58
+BRF:4
+BRH:4
+FNF:6
+FNH:6
+end_of_record
