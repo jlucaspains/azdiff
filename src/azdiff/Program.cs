@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System.CommandLine;
 
 namespace azdiff;
@@ -24,6 +23,16 @@ public static class Program
                     description: "The comparison target json file. It should be an exported ARM template.")
         { IsRequired = true };
 
+        var sourceResourceGroupId = new Option<string>(
+                    name: "--sourceResourceGroupId",
+                    description: "The comparison source json file.")
+        { IsRequired = true };
+
+        var targetResourceGroupId = new Option<string>(
+                    name: "--targetResourceGroupId",
+                    description: "The comparison target Resource Group.")
+        { IsRequired = true };
+
         var outputFolderOption = new Option<DirectoryInfo>(
                     name: "--outputFolder",
                     description: "The folder path for output.",
@@ -43,83 +52,33 @@ public static class Program
         armCommand.AddOption(ignoreTypeOption);
         armCommand.AddOption(replaceStringsFileOption);
 
+        rgCommand.AddOption(sourceResourceGroupId);
+        rgCommand.AddOption(targetResourceGroupId);
+        rgCommand.AddOption(outputFolderOption);
+        rgCommand.AddOption(ignoreTypeOption);
+        rgCommand.AddOption(replaceStringsFileOption);
+
         armCommand.SetHandler(CompareArmTemplateFiles,
                     sourceFileOption, targetFileOption, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
+
+        rgCommand.SetHandler(CompareResourceGroups,
+                    sourceResourceGroupId, targetResourceGroupId, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
 
         return await rootCommand.InvokeAsync(args);
     }
 
+    internal static ArmTemplateComparer ArmTemplateComparer { get; set; } = new();
+    internal static IAzureTemplateLoader AzureTemplateLoader { get; set; } = new AzureTemplateLoader();
+
     static async Task<int> CompareArmTemplateFiles(FileInfo source, FileInfo target, DirectoryInfo outputFolder, IEnumerable<string> typesToIgnore, FileInfo? replaceStringsFile)
     {
-        if (!source.Exists)
-        {
-            Console.WriteLine("Source file does not exist.");
-            return 2;
-        }
-
-        if (!target.Exists)
-        {
-            Console.WriteLine("Target file does not exist.");
-            return 3;
-        }
-
-        var targetContents = await File.ReadAllTextAsync(target.FullName);
-        var sourceContents = await File.ReadAllTextAsync(source.FullName);
-        outputFolder.Create();
-
-        List<ReplaceText>? replaceStrings = null;
-
-        if (replaceStringsFile != null)
-        {
-            if (!replaceStringsFile.Exists)
-            {
-                Console.WriteLine("Replace strings file does not exist.");
-                return 4;
-            }
-
-            replaceStrings = GetReplaceStrings(replaceStringsFile);
-
-            if (replaceStrings.Count == 0)
-            {
-                Console.WriteLine("Replace strings file is invalid.");
-                return 5;
-            }
-        }
-
-        var result = ArmComparer.DiffArmTemplates(sourceContents, targetContents, typesToIgnore, replaceStrings ?? []);
-
-        await WriteResultToFiles(result, outputFolder);
-
-        return 0;
+        var comparer = new JsonFileDiffCommand(ArmTemplateComparer);
+        return await comparer.CompareJsonFiles(source, target, outputFolder, typesToIgnore, replaceStringsFile);
     }
 
-    static List<ReplaceText> GetReplaceStrings(FileInfo replaceStringsFile)
+    static async Task<int> CompareResourceGroups(string sourceResourceGroupId, string targetResourceGroupId, DirectoryInfo outputFolder, IEnumerable<string> typesToIgnore, FileInfo? replaceStringsFile)
     {
-        try
-        {
-            var replaceStringsContent = File.ReadAllText(replaceStringsFile.FullName);
-
-            return JsonConvert.DeserializeObject<List<ReplaceText>>(replaceStringsContent)
-                ?? [];
-        }
-        catch
-        {
-            return [];
-        }
-    }
-    static async Task WriteResultToFiles(IEnumerable<DiffResult> diffResultItems, DirectoryInfo outputFolder)
-    {
-        foreach (var item in diffResultItems)
-        {
-            var prefix = item.DiffType switch
-            {
-                DiffType.Diff => "diff",
-                DiffType.MissingOnTarget => "new",
-                DiffType.ExtraOnTarget => "extra",
-                _ => throw new NotImplementedException(),
-            };
-
-            await File.WriteAllTextAsync($"diffs/{prefix}_{item.Name}.diff", item.Result);
-        }
+        var comparer = new ResourceGroupDiffCommand(ArmTemplateComparer, AzureTemplateLoader);
+        return await comparer.CompareResourceGroups(sourceResourceGroupId, targetResourceGroupId, outputFolder, typesToIgnore, replaceStringsFile);
     }
 }

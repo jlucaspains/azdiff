@@ -4,9 +4,11 @@ using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 using Newtonsoft.Json;
 
-class ArmComparer
+namespace azdiff;
+
+class ArmTemplateComparer
 {
-    public static IEnumerable<DiffResult> DiffArmTemplates(string source, string target, IEnumerable<string> typesToIgnore, IEnumerable<ReplaceText> replaceStringsFile)
+    public IEnumerable<DiffResult> DiffArmTemplates(string source, string target, IEnumerable<string> typesToIgnore, IEnumerable<ReplaceText> replaceStringsFile)
     {
         var result = new List<DiffResult>();
 
@@ -93,7 +95,7 @@ class ArmComparer
         return input;
     }
 
-    static List<Newtonsoft.Json.Linq.JObject> TryDeserializeArmJson(string json)
+    List<Newtonsoft.Json.Linq.JObject> TryDeserializeArmJson(string json)
     {
         try
         {
