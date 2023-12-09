@@ -21,7 +21,7 @@ jobs:
         run: dotnet restore
       - name: Get Version
         run: |
-          TAG="v1.0.0-alpha1"
+          TAG="${{ github.event.release.tag_name }}"
           echo "VERSION=${TAG#v}" >> $GITHUB_ENV
       - name: Build
         run: |
