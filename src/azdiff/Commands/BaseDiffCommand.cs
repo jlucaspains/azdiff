@@ -56,7 +56,7 @@ class BaseDiffCommand
                 _ => throw new NotImplementedException(),
             };
 
-            await File.WriteAllTextAsync($"diffs/{prefix}_{item.Name}.diff", item.Result);
+            await File.WriteAllTextAsync($"{outputFolder.FullName}/{prefix}_{item.Name}.diff", item.Result);
         }
     }
 }
