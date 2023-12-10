@@ -16,8 +16,8 @@ class ResourceGroupDiffCommand(ArmTemplateComparer Comparer, IAzureTemplateLoade
             return 3;
         }
 
-        var source = await TemplateLoader.GetArmTemplateAsync(sourceResourceGroupId);
-        var target = await TemplateLoader.GetArmTemplateAsync(targetResourceGroupId);
+        var source = await TemplateLoader.GetResourceGroupTemplateAsync(sourceResourceGroupId);
+        var target = await TemplateLoader.GetResourceGroupTemplateAsync(targetResourceGroupId);
         outputFolder.Create();
 
         var (replaceStrings, resultCode) = PrepareReplaceStrings(replaceStringsFile);

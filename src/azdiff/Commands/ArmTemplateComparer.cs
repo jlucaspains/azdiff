@@ -32,20 +32,20 @@ class ArmTemplateComparer
                 var rightJson = JsonConvert.SerializeObject(right, Formatting.Indented);
                 var leftJson = JsonConvert.SerializeObject(left, Formatting.Indented);
 
-                leftJson = ReplaceText(leftJson, ReplaceTextTarget.Body, replaceStringsFile);
-                rightJson = ReplaceText(rightJson, ReplaceTextTarget.Body, replaceStringsFile);
+                leftJson = Utilities.ReplaceText(leftJson, ReplaceTextTarget.Body, replaceStringsFile);
+                rightJson = Utilities.ReplaceText(rightJson, ReplaceTextTarget.Body, replaceStringsFile);
 
                 var diff = InlineDiffBuilder.Diff(leftJson, rightJson, true, true);
 
                 if (diff.HasDifferences)
-                    result.Add(new DiffResult(DiffType.Diff, MakeFileNameSafe(cleanName), MakeDiffResult(diff)));
+                    result.Add(new DiffResult(DiffType.Diff, Utilities.MakeFileNameSafe(cleanName), Utilities.MakeDiffResult(diff)));
 
                 itemsRight.Remove(leftKey);
             }
             else
             {
                 var leftJson = JsonConvert.SerializeObject(left, Formatting.Indented);
-                result.Add(new DiffResult(DiffType.MissingOnTarget, MakeFileNameSafe(cleanName), leftJson));
+                result.Add(new DiffResult(DiffType.MissingOnTarget, Utilities.MakeFileNameSafe(cleanName), leftJson));
             }
         }
 
@@ -55,44 +55,10 @@ class ArmTemplateComparer
             var cleanName = cleanNameToken?.ToString() ?? string.Empty;
             var rightJson = JsonConvert.SerializeObject(item, Formatting.Indented);
 
-            result.Add(new DiffResult(DiffType.ExtraOnTarget, MakeFileNameSafe(cleanName), rightJson));
+            result.Add(new DiffResult(DiffType.ExtraOnTarget, Utilities.MakeFileNameSafe(cleanName), rightJson));
         }
 
         return result;
-    }
-
-    static string MakeDiffResult(DiffPaneModel diff)
-    {
-        var content = new StringBuilder();
-        foreach (var line in diff.Lines)
-        {
-            var prefix = line.Type switch
-            {
-                ChangeType.Inserted => "+ ",
-                ChangeType.Deleted => "- ",
-                _ => "  "
-            };
-            content.AppendLine($"{prefix}{line.Text}");
-        }
-
-        return content.ToString();
-    }
-
-    static string MakeFileNameSafe(string fileName)
-    {
-        return Path.GetInvalidFileNameChars()
-            .Aggregate(fileName, (current, c) => current.Replace(c, '_'));
-    }
-
-    static string ReplaceText(string input, ReplaceTextTarget target, IEnumerable<ReplaceText> replacements)
-    {
-        foreach (var (_, replacementInput, replacement)
-            in replacements.Where(item => (item.Target & target) == target))
-        {
-            input = Regex.Replace(input, replacementInput, replacement, RegexOptions.IgnoreCase);
-        }
-
-        return input;
     }
 
     List<Newtonsoft.Json.Linq.JObject> TryDeserializeArmJson(string json)
@@ -122,7 +88,7 @@ class ArmTemplateComparer
             if (typesToIgnore.Contains(type?.ToString()))
                 continue;
 
-            var cleanName = ReplaceText(name?.ToString() ?? string.Empty, ReplaceTextTarget.Name, replaceStrings);
+            var cleanName = Utilities.ReplaceText(name?.ToString() ?? string.Empty, ReplaceTextTarget.Name, replaceStrings);
             name?.Replace(cleanName);
             result.Add($"{type}/{cleanName}", item);
         }

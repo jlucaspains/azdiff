@@ -13,6 +13,9 @@ public static class Program
         var armCommand = new Command("arm", "Compare two ARM template files");
         rootCommand.Add(armCommand);
 
+        var sbCommand = new Command("sb", "Compares two Azure Subscriptions");
+        rootCommand.Add(sbCommand);
+
         var sourceFileOption = new Option<FileInfo>(
                     name: "--sourceFile",
                     description: "The comparison source json file. It should be an exported ARM template.")
@@ -25,12 +28,22 @@ public static class Program
 
         var sourceResourceGroupId = new Option<string>(
                     name: "--sourceResourceGroupId",
-                    description: "The comparison source json file.")
+                    description: "The comparison source Resource Group.")
         { IsRequired = true };
 
         var targetResourceGroupId = new Option<string>(
                     name: "--targetResourceGroupId",
                     description: "The comparison target Resource Group.")
+        { IsRequired = true };
+
+        var sourceSubscriptionId = new Option<string>(
+                    name: "--sourceSubscriptionId",
+                    description: "The comparison source Subscription.")
+        { IsRequired = true };
+
+        var targetSubscriptionId = new Option<string>(
+                    name: "--targetSubscriptionId",
+                    description: "The comparison target Subscription.")
         { IsRequired = true };
 
         var outputFolderOption = new Option<DirectoryInfo>(
@@ -58,11 +71,20 @@ public static class Program
         rgCommand.AddOption(ignoreTypeOption);
         rgCommand.AddOption(replaceStringsFileOption);
 
+        sbCommand.AddOption(sourceSubscriptionId);
+        sbCommand.AddOption(targetSubscriptionId);
+        sbCommand.AddOption(outputFolderOption);
+        sbCommand.AddOption(ignoreTypeOption);
+        sbCommand.AddOption(replaceStringsFileOption);
+
         armCommand.SetHandler(CompareArmTemplateFiles,
                     sourceFileOption, targetFileOption, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
 
         rgCommand.SetHandler(CompareResourceGroups,
                     sourceResourceGroupId, targetResourceGroupId, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
+
+        sbCommand.SetHandler(CompareSubscriptions,
+                    sourceSubscriptionId, targetSubscriptionId, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
 
         return await rootCommand.InvokeAsync(args);
     }
@@ -80,5 +102,11 @@ public static class Program
     {
         var comparer = new ResourceGroupDiffCommand(ArmTemplateComparer, AzureTemplateLoader);
         return await comparer.CompareResourceGroups(sourceResourceGroupId, targetResourceGroupId, outputFolder, typesToIgnore, replaceStringsFile);
+    }
+    
+    static async Task<int> CompareSubscriptions(string sourceSubscriptionId, string targetSubscriptionId, DirectoryInfo outputFolder, IEnumerable<string> typesToIgnore, FileInfo? replaceStringsFile)
+    {
+        var comparer = new SubscriptionDiffCommand(ArmTemplateComparer, AzureTemplateLoader);
+        return await comparer.CompareSubscriptions(sourceSubscriptionId, targetSubscriptionId, outputFolder, typesToIgnore, replaceStringsFile);
     }
 }

@@ -3,7 +3,7 @@ namespace azdiff.tests;
 internal class TestAzureTemplateLoader : IAzureTemplateLoader
 {
     public Dictionary<string, string> Result { get; set; } = new();
-    public Task<string> GetArmTemplateAsync(string resourceGroupId)
+    public Task<string> GetResourceGroupTemplateAsync(string resourceGroupId)
     {
         return Task.FromResult(Result[resourceGroupId]);
     }
