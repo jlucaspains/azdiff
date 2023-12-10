@@ -64,11 +64,11 @@ Output file (diff_stapp-blog-centralus-001.diff):
 ```
 
 ### Parameters
-#### `--sourceFile`
+#### `--sourceFile` (required)
 
 The comparison source json file. It should be an exported ARM template.
 
-#### `--targetFile`
+#### `--targetFile` (required)
 
 The comparison target json file. It should be an exported ARM template.
 
@@ -107,6 +107,11 @@ Facilitates the comparison between two Azure Resource Groups, analyzing Azure re
              [--replaceStringsFile]
              [-?, -h, --help]
 ```
+
+### Azure Authentication
+The `azdiff rg` uses the DefaultAzureCredential credential provider to authenticate with Azure. It will try a series of authentication methods and use the first successful one or an interactive session if none of the methods succeed.
+
+For more information, see [Authenticate with Azure libraries for .NET](https://learn.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme?view=azure-dotnet).
 
 ### Examples
 Basic usage:
@@ -149,24 +154,21 @@ Output file (diff_stapp-blog-centralus-001.diff):
 ```
 
 ### Parameters
-#### `--sourceResourceGroupId`
+#### `--sourceResourceGroupId` (required)
 
 The comparison source resource group id.
 
-#### `--targetResourceGroupId`
+#### `--targetResourceGroupId` (required)
 
 The comparison target resource group id.
 
 #### `--outputFolder`
-
 The folder path for output. Defaults to `diffs`.
 
 #### `--ignoreType`
-
-A list of types to ignore in the ARM comparison. You may use this option multiple times.
+A list of types to ignore in the ARM comparison. You may use this option zero to multiple times.
 
 #### `--replaceStringsFile`
-
 JSON file containing replacement strings. Example:
 
 ```json

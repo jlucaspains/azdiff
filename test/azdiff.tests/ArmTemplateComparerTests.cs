@@ -78,7 +78,6 @@ public class ArmTemplateComparerTests
         var comparer = new ArmTemplateComparer();
         var result = comparer.DiffArmTemplates(left, right, [], []);
 
-        Console.WriteLine(result);
         Assert.True(result.Count() == 1);
         Assert.Equal("stapp-blog-centralus-001", result.First().Name);
         Assert.Equal(DiffType.MissingOnTarget, result.First().DiffType);

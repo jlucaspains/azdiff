@@ -2,8 +2,8 @@ namespace azdiff.tests;
 
 internal class TestAzureTemplateLoader : IAzureTemplateLoader
 {
-    public Dictionary<string, string> Result { get; set; } = new();
-    public Task<string> GetArmTemplateAsync(string resourceGroupId)
+    public Dictionary<string, (string, int)> Result { get; set; } = new();
+    public Task<(string Result, int Code)> GetArmTemplateAsync(string resourceGroupId)
     {
         return Task.FromResult(Result[resourceGroupId]);
     }
@@ -16,8 +16,8 @@ public class ResourceGroupDiffCommandTests
     {
         DirectoryInfo outputFolder = new(".");
         var templateLoader = new TestAzureTemplateLoader();
-        templateLoader.Result.Add("test1", "{}");
-        templateLoader.Result.Add("test2", "{}");
+        templateLoader.Result.Add("test1", ("{}", 0));
+        templateLoader.Result.Add("test2", ("{}", 0));
         var comparer = new ResourceGroupDiffCommand(new ArmTemplateComparer(), templateLoader);
         var result = await comparer.CompareResourceGroups("test1", "test2", outputFolder, [], null);
 
@@ -29,8 +29,8 @@ public class ResourceGroupDiffCommandTests
     {
         DirectoryInfo outputFolder = new(".");
         var templateLoader = new TestAzureTemplateLoader();
-        templateLoader.Result.Add("test1", "{}");
-        templateLoader.Result.Add("test2", "{}");
+        templateLoader.Result.Add("test1", ("{}", 0));
+        templateLoader.Result.Add("test2", ("{}", 0));
         File.WriteAllText("replacestrings.json", "[{\"Target\":\"Name\",\"Input\": \"dev\",\"Replacement\":\"env\"}]");
         var comparer = new ResourceGroupDiffCommand(new ArmTemplateComparer(), templateLoader);
         var result = await comparer.CompareResourceGroups("test1", "test2", outputFolder, [], new FileInfo("replacestrings.json"));
@@ -53,7 +53,7 @@ public class ResourceGroupDiffCommandTests
     {
         DirectoryInfo outputFolder = new(".");
         var templateLoader = new TestAzureTemplateLoader();
-        templateLoader.Result.Add("id", "{}");
+        templateLoader.Result.Add("id", ("{}", 0));
         var comparer = new ResourceGroupDiffCommand(new ArmTemplateComparer(), templateLoader);
         var result = await comparer.CompareResourceGroups("id", "", outputFolder, [], null);
 
@@ -65,7 +65,7 @@ public class ResourceGroupDiffCommandTests
     {
         DirectoryInfo outputFolder = new(".");
         var templateLoader = new TestAzureTemplateLoader();
-        templateLoader.Result.Add("id", "{}");
+        templateLoader.Result.Add("id", ("{}", 0));
         var comparer = new ResourceGroupDiffCommand(new ArmTemplateComparer(), templateLoader);
         var result = await comparer.CompareResourceGroups("id", "id", outputFolder, [], new FileInfo("idontexist.json"));
 
@@ -77,11 +77,37 @@ public class ResourceGroupDiffCommandTests
     {
         DirectoryInfo outputFolder = new(".");
         var templateLoader = new TestAzureTemplateLoader();
-        templateLoader.Result.Add("id", "{}");
+        templateLoader.Result.Add("id", ("{}", 0));
         File.WriteAllText("badreplacestrings.json", "");
         var comparer = new ResourceGroupDiffCommand(new ArmTemplateComparer(), templateLoader);
         var result = await comparer.CompareResourceGroups("id", "id", outputFolder, [], new FileInfo("badreplacestrings.json"));
 
         Assert.Equal(5, result);
+    }
+    
+    [Fact]
+    public async Task NonZeroResultLoadingSourceAzureTemplateStopsCompares()
+    {
+        DirectoryInfo outputFolder = new(".");
+        var templateLoader = new TestAzureTemplateLoader();
+        templateLoader.Result.Add("source", ("{}", 6));
+        templateLoader.Result.Add("target", ("{}", 0));
+        var comparer = new ResourceGroupDiffCommand(new ArmTemplateComparer(), templateLoader);
+        var result = await comparer.CompareResourceGroups("source", "target", outputFolder, [], null);
+
+        Assert.Equal(6, result);
+    }
+    
+    [Fact]
+    public async Task NonZeroResultLoadingTargetAzureTemplateStopsCompares()
+    {
+        DirectoryInfo outputFolder = new(".");
+        var templateLoader = new TestAzureTemplateLoader();
+        templateLoader.Result.Add("source", ("{}", 0));
+        templateLoader.Result.Add("target", ("{}", 6));
+        var comparer = new ResourceGroupDiffCommand(new ArmTemplateComparer(), templateLoader);
+        var result = await comparer.CompareResourceGroups("source", "target", outputFolder, [], null);
+
+        Assert.Equal(6, result);
     }
 }
