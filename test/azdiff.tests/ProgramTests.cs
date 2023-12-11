@@ -24,7 +24,7 @@ public class ProgramTests
         File.WriteAllText("CompareJsonFileCommandReturns0.json", "{}");
         
         var templateLoader = new TestAzureTemplateLoader();
-        templateLoader.Result.Add("id", "{}");
+        templateLoader.Result.Add("id", ("{}", 0));
         Program.AzureTemplateLoader = templateLoader;
 
         var result = await Program.Main(["rg", "--sourceResourceGroupId", "id", "--targetResourceGroupId", "id"]);

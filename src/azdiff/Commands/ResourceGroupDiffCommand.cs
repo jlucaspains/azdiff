@@ -6,18 +6,26 @@ class ResourceGroupDiffCommand(ArmTemplateComparer Comparer, IAzureTemplateLoade
     {
         if (string.IsNullOrEmpty(sourceResourceGroupId))
         {
-            Console.WriteLine("Source resource group does not exist.");
+            Utilities.WriteError("Source resource group id is invalid.");
             return 2;
         }
 
         if (string.IsNullOrEmpty(targetResourceGroupId))
         {
-            Console.WriteLine("Target resource group does not exist.");
+            Utilities.WriteError("Target resource group id is invalid.");
             return 3;
         }
 
-        var source = await TemplateLoader.GetArmTemplateAsync(sourceResourceGroupId);
-        var target = await TemplateLoader.GetArmTemplateAsync(targetResourceGroupId);
+        var (source, sourceResult) = await TemplateLoader.GetArmTemplateAsync(sourceResourceGroupId);
+
+        if (sourceResult != 0)
+            return sourceResult;
+
+        var (target, targetResult) = await TemplateLoader.GetArmTemplateAsync(targetResourceGroupId);
+
+        if (targetResult != 0)
+            return targetResult;
+
         outputFolder.Create();
 
         var (replaceStrings, resultCode) = PrepareReplaceStrings(replaceStringsFile);
@@ -25,13 +33,15 @@ class ResourceGroupDiffCommand(ArmTemplateComparer Comparer, IAzureTemplateLoade
         if (resultCode != 0 || replaceStrings == null)
             return resultCode;
 
-        Console.WriteLine("Starting comparison.");
+        Utilities.WriteInformation("Starting comparison...");
 
         var result = Comparer.DiffArmTemplates(source, target, typesToIgnore, replaceStrings ?? []);
 
-        Console.WriteLine("Found {0}.resource diffs. Writing to files...", result.Count());
+        Utilities.WriteInformation("Found {0} resource differences. Writing to files...", result.Count());
 
         await WriteResultToFiles(result, outputFolder);
+
+        Utilities.WriteSuccess("Diff is complete.");
 
         return 0;
     }

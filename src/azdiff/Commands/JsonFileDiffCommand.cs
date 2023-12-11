@@ -6,13 +6,13 @@ class JsonFileDiffCommand(ArmTemplateComparer Comparer) : BaseDiffCommand
     {
         if (!source.Exists)
         {
-            Console.WriteLine("Source file does not exist.");
+            Utilities.WriteError("Source file does not exist.");
             return 2;
         }
 
         if (!target.Exists)
         {
-            Console.WriteLine("Target file does not exist.");
+            Utilities.WriteError("Target file does not exist.");
             return 3;
         }
 
@@ -25,9 +25,15 @@ class JsonFileDiffCommand(ArmTemplateComparer Comparer) : BaseDiffCommand
         if (resultCode != 0 || replaceStrings == null)
             return resultCode;
 
+        Utilities.WriteInformation("Starting comparison...");
+
         var result = Comparer.DiffArmTemplates(sourceContents, targetContents, typesToIgnore, replaceStrings ?? []);
 
+        Utilities.WriteInformation("Found {0} resource differences. Writing to files...", result.Count());
+
         await WriteResultToFiles(result, outputFolder);
+
+        Utilities.WriteSuccess("Diff is complete.");
 
         return 0;
     }

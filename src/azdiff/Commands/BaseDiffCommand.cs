@@ -12,7 +12,7 @@ class BaseDiffCommand
         {
             if (!replaceStringsFile.Exists)
             {
-                Console.WriteLine("Replace strings file does not exist.");
+                Utilities.WriteError("Replace strings file does not exist.");
                 return (replaceStrings, 4);
             }
 
@@ -20,7 +20,7 @@ class BaseDiffCommand
 
             if (replaceStrings.Count == 0)
             {
-                Console.WriteLine("Replace strings file is invalid.");
+                Utilities.WriteError("Replace strings file is invalid.");
                 return (replaceStrings, 5);
             }
         }
