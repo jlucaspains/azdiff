@@ -6,19 +6,48 @@ using System.Security.Permissions;
 
 namespace azdiff;
 
+enum CredentialType
+{
+    DefaultAzureCredential,
+    EnvironmentCredential,
+    WorkloadIdentityCredential,
+    ManagedIdentityCredential,
+    SharedTokenCacheCredential,
+    VisualStudioCredential,
+    VisualStudioCodeCredential,
+    AzureCliCredential,
+    AzurePowerShellCredential,
+    AzureDeveloperCliCredential,
+    InteractiveBrowserCredential
+}
+
 interface IAzureTemplateLoader
 {
-    Task<(string Result, int Code)> GetArmTemplateAsync(string resourceGroupId);
+    Task<(string Result, int Code)> GetArmTemplateAsync(string resourceGroupId, CredentialType credentialType);
 }
 
 class AzureTemplateLoader : IAzureTemplateLoader
 {
-    public async Task<(string Result, int Code)> GetArmTemplateAsync(string resourceGroupId)
+    public async Task<(string Result, int Code)> GetArmTemplateAsync(string resourceGroupId, CredentialType credentialType)
     {
         try
         {
             Utilities.WriteInformation("Getting ARM template for resource group {0}...", resourceGroupId);
-            var credential = new DefaultAzureCredential(includeInteractiveCredentials: true);
+            TokenCredential credential = credentialType switch
+            {
+                CredentialType.DefaultAzureCredential => new DefaultAzureCredential(),
+                CredentialType.EnvironmentCredential => new EnvironmentCredential(),
+                CredentialType.WorkloadIdentityCredential => new WorkloadIdentityCredential(),
+                CredentialType.ManagedIdentityCredential => new ManagedIdentityCredential(),
+                CredentialType.SharedTokenCacheCredential => new SharedTokenCacheCredential(),
+                CredentialType.VisualStudioCodeCredential => new VisualStudioCodeCredential(),
+                CredentialType.VisualStudioCredential => new VisualStudioCredential(),
+                CredentialType.InteractiveBrowserCredential => new InteractiveBrowserCredential(),
+                CredentialType.AzureCliCredential => new AzureCliCredential(),
+                CredentialType.AzurePowerShellCredential => new AzurePowerShellCredential(),
+                CredentialType.AzureDeveloperCliCredential => new AzureDeveloperCliCredential(),
+                _ => throw new NotImplementedException()
+            };
             var client = new ArmClient(credential);
             var rg = client.GetResourceGroupResource(new ResourceIdentifier(resourceGroupId));
 

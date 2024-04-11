@@ -46,6 +46,10 @@ public static class Program
                     name: "--replaceStringsFile",
                     description: "Replacement strings file.");
 
+        var authenticationMethod = new Option<CredentialType>(
+                    name: "--authenticationMethod",
+                    description: "Replacement strings file.");
+
         armCommand.AddOption(sourceFileOption);
         armCommand.AddOption(targetFileOption);
         armCommand.AddOption(outputFolderOption);
@@ -57,12 +61,13 @@ public static class Program
         rgCommand.AddOption(outputFolderOption);
         rgCommand.AddOption(ignoreTypeOption);
         rgCommand.AddOption(replaceStringsFileOption);
+        rgCommand.AddOption(authenticationMethod);
 
         armCommand.SetHandler(CompareArmTemplateFiles,
                     sourceFileOption, targetFileOption, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
 
         rgCommand.SetHandler(CompareResourceGroups,
-                    sourceResourceGroupId, targetResourceGroupId, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
+                    sourceResourceGroupId, targetResourceGroupId, outputFolderOption, ignoreTypeOption, replaceStringsFileOption, authenticationMethod);
 
         return await rootCommand.InvokeAsync(args);
     }
@@ -76,9 +81,9 @@ public static class Program
         return await comparer.CompareJsonFiles(source, target, outputFolder, typesToIgnore, replaceStringsFile);
     }
 
-    static async Task<int> CompareResourceGroups(string sourceResourceGroupId, string targetResourceGroupId, DirectoryInfo outputFolder, IEnumerable<string> typesToIgnore, FileInfo? replaceStringsFile)
+    static async Task<int> CompareResourceGroups(string sourceResourceGroupId, string targetResourceGroupId, DirectoryInfo outputFolder, IEnumerable<string> typesToIgnore, FileInfo? replaceStringsFile, CredentialType credentialType)
     {
         var comparer = new ResourceGroupDiffCommand(ArmTemplateComparer, AzureTemplateLoader);
-        return await comparer.CompareResourceGroups(sourceResourceGroupId, targetResourceGroupId, outputFolder, typesToIgnore, replaceStringsFile);
+        return await comparer.CompareResourceGroups(sourceResourceGroupId, targetResourceGroupId, outputFolder, typesToIgnore, replaceStringsFile, credentialType);
     }
 }
