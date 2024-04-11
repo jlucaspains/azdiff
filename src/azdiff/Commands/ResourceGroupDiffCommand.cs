@@ -2,7 +2,8 @@ namespace azdiff;
 
 class ResourceGroupDiffCommand(ArmTemplateComparer Comparer, IAzureTemplateLoader TemplateLoader) : BaseDiffCommand
 {
-    internal async Task<int> CompareResourceGroups(string sourceResourceGroupId, string targetResourceGroupId, DirectoryInfo outputFolder, IEnumerable<string> typesToIgnore, FileInfo? replaceStringsFile)
+    internal async Task<int> CompareResourceGroups(string sourceResourceGroupId, string targetResourceGroupId, DirectoryInfo outputFolder, 
+        IEnumerable<string> typesToIgnore, FileInfo? replaceStringsFile, CredentialType credentialType)
     {
         if (string.IsNullOrEmpty(sourceResourceGroupId))
         {
@@ -16,12 +17,12 @@ class ResourceGroupDiffCommand(ArmTemplateComparer Comparer, IAzureTemplateLoade
             return 3;
         }
 
-        var (source, sourceResult) = await TemplateLoader.GetArmTemplateAsync(sourceResourceGroupId);
+        var (source, sourceResult) = await TemplateLoader.GetArmTemplateAsync(sourceResourceGroupId, credentialType);
 
         if (sourceResult != 0)
             return sourceResult;
 
-        var (target, targetResult) = await TemplateLoader.GetArmTemplateAsync(targetResourceGroupId);
+        var (target, targetResult) = await TemplateLoader.GetArmTemplateAsync(targetResourceGroupId, credentialType);
 
         if (targetResult != 0)
             return targetResult;
