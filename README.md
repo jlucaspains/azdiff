@@ -105,6 +105,7 @@ Facilitates the comparison between two Azure Resource Groups, analyzing Azure re
              [--outputFolder]
              [--ignoreType]
              [--replaceStringsFile]
+             [--authenticationMethod]
              [-?, -h, --help]
 ```
 
@@ -180,5 +181,21 @@ JSON file containing replacement strings. Example:
     }
 ]
 ```
+
+#### `--authenticationMethod`
+Authentication method for connecting to Azure Resource Manager. Default value is DefaultAzureCredential.
+
+Valid options are:
+1. [DefaultAzureCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.DefaultAzureCredential?view=azure-dotnet),
+2. [EnvironmentCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.EnvironmentCredential?view=azure-dotnet),
+3. [WorkloadIdentityCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.WorkloadIdentityCredential?view=azure-dotnet),
+4. [ManagedIdentityCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.ManagedIdentityCredential?view=azure-dotnet),
+5. [SharedTokenCacheCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.SharedTokenCacheCredential?view=azure-dotnet),
+6. [VisualStudioCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.VisualStudioCredential?view=azure-dotnet),
+7. [VisualStudioCodeCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.VisualStudioCodeCredential?view=azure-dotnet),
+8. [AzureCliCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.AzureCliCredential?view=azure-dotnet),
+9. [AzurePowerShellCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.AzurePowerShellCredential?view=azure-dotnet),
+10. [AzureDeveloperCliCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.AzureDeveloperCliCredential?view=azure-dotnet),
+11. [InteractiveBrowserCredential](https://learn.microsoft.com/en-us/dotnet/api/azure.identity.InteractiveBrowserCredential?view=azure-dotnet)
 
 The `target` property indicates whether the name (target: Name) property or the whole file (target: Body) will apply replacements. This is particularly useful when dealing with environment comparison (e.g.: DEV vs TEST) where the resource names or parts of its json will differ in a predictable way.
