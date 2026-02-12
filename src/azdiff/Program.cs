@@ -71,7 +71,7 @@ public static class Program
         rgCommand.Options.Add(replaceStringsFileOption);
         rgCommand.Options.Add(authenticationMethod);
 
-        armCommand.SetAction(async (parseResult, cancellationToken) =>
+        armCommand.SetAction(async parseResult =>
         {
             var source = parseResult.GetValue(sourceFileOption);
             var target = parseResult.GetValue(targetFileOption);
@@ -81,7 +81,7 @@ public static class Program
             return await CompareArmTemplateFiles(source!, target!, outputFolder!, typesToIgnore!, replaceStringsFile);
         });
 
-        rgCommand.SetAction(async (parseResult, cancellationToken) =>
+        rgCommand.SetAction(async parseResult =>
         {
             var sourceRg = parseResult.GetValue(sourceResourceGroupId);
             var targetRg = parseResult.GetValue(targetResourceGroupId);
