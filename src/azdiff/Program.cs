@@ -4,7 +4,7 @@ namespace azdiff;
 
 public static class Program
 {
-    public static async Task<int> Main(string[] args)
+    public static int Main(string[] args)
     {
         var rootCommand = new RootCommand();
         var rgCommand = new Command("rg", "Compares two Azure Resource Groups");
@@ -13,63 +13,86 @@ public static class Program
         var armCommand = new Command("arm", "Compare two ARM template files");
         rootCommand.Add(armCommand);
 
-        var sourceFileOption = new Option<FileInfo>(
-                    name: "--sourceFile",
-                    description: "The comparison source json file. It should be an exported ARM template.")
-        { IsRequired = true };
+        var sourceFileOption = new Option<FileInfo>("--sourceFile")
+        {
+            Description = "The comparison source json file. It should be an exported ARM template.",
+            Required = true
+        };
 
-        var targetFileOption = new Option<FileInfo>(
-                    name: "--targetFile",
-                    description: "The comparison target json file. It should be an exported ARM template.")
-        { IsRequired = true };
+        var targetFileOption = new Option<FileInfo>("--targetFile")
+        {
+            Description = "The comparison target json file. It should be an exported ARM template.",
+            Required = true
+        };
 
-        var sourceResourceGroupId = new Option<string>(
-                    name: "--sourceResourceGroupId",
-                    description: "The comparison source json file.")
-        { IsRequired = true };
+        var sourceResourceGroupId = new Option<string>("--sourceResourceGroupId")
+        {
+            Description = "The comparison source json file.",
+            Required = true
+        };
 
-        var targetResourceGroupId = new Option<string>(
-                    name: "--targetResourceGroupId",
-                    description: "The comparison target Resource Group.")
-        { IsRequired = true };
+        var targetResourceGroupId = new Option<string>("--targetResourceGroupId")
+        {
+            Description = "The comparison target Resource Group.",
+            Required = true
+        };
 
-        var outputFolderOption = new Option<DirectoryInfo>(
-                    name: "--outputFolder",
-                    description: "The folder path for output.",
-                    getDefaultValue: () => new DirectoryInfo("diffs"));
+        var outputFolderOption = new Option<DirectoryInfo>("--outputFolder")
+        {
+            Description = "The folder path for output.",
+            DefaultValueFactory = _ => new DirectoryInfo("diffs")
+        };
 
-        var ignoreTypeOption = new Option<IEnumerable<string>>(
-                    name: "--ignoreType",
-                    description: "A list of types to ignore in the ARM comparison.");
+        var ignoreTypeOption = new Option<IEnumerable<string>>("--ignoreType")
+        {
+            Description = "A list of types to ignore in the ARM comparison."
+        };
 
-        var replaceStringsFileOption = new Option<FileInfo?>(
-                    name: "--replaceStringsFile",
-                    description: "Replacement strings file.");
+        var replaceStringsFileOption = new Option<FileInfo?>("--replaceStringsFile")
+        {
+            Description = "Replacement strings file."
+        };
 
-        var authenticationMethod = new Option<CredentialType>(
-                    name: "--authenticationMethod",
-                    description: "Replacement strings file.");
+        var authenticationMethod = new Option<CredentialType>("--authenticationMethod")
+        {
+            Description = "Replacement strings file."
+        };
 
-        armCommand.AddOption(sourceFileOption);
-        armCommand.AddOption(targetFileOption);
-        armCommand.AddOption(outputFolderOption);
-        armCommand.AddOption(ignoreTypeOption);
-        armCommand.AddOption(replaceStringsFileOption);
+        armCommand.Options.Add(sourceFileOption);
+        armCommand.Options.Add(targetFileOption);
+        armCommand.Options.Add(outputFolderOption);
+        armCommand.Options.Add(ignoreTypeOption);
+        armCommand.Options.Add(replaceStringsFileOption);
 
-        rgCommand.AddOption(sourceResourceGroupId);
-        rgCommand.AddOption(targetResourceGroupId);
-        rgCommand.AddOption(outputFolderOption);
-        rgCommand.AddOption(ignoreTypeOption);
-        rgCommand.AddOption(replaceStringsFileOption);
-        rgCommand.AddOption(authenticationMethod);
+        rgCommand.Options.Add(sourceResourceGroupId);
+        rgCommand.Options.Add(targetResourceGroupId);
+        rgCommand.Options.Add(outputFolderOption);
+        rgCommand.Options.Add(ignoreTypeOption);
+        rgCommand.Options.Add(replaceStringsFileOption);
+        rgCommand.Options.Add(authenticationMethod);
 
-        armCommand.SetHandler(CompareArmTemplateFiles,
-                    sourceFileOption, targetFileOption, outputFolderOption, ignoreTypeOption, replaceStringsFileOption);
+        armCommand.SetAction(async parseResult =>
+        {
+            var source = parseResult.GetValue(sourceFileOption);
+            var target = parseResult.GetValue(targetFileOption);
+            var outputFolder = parseResult.GetValue(outputFolderOption);
+            var typesToIgnore = parseResult.GetValue(ignoreTypeOption);
+            var replaceStringsFile = parseResult.GetValue(replaceStringsFileOption);
+            return await CompareArmTemplateFiles(source!, target!, outputFolder!, typesToIgnore!, replaceStringsFile);
+        });
 
-        rgCommand.SetHandler(CompareResourceGroups,
-                    sourceResourceGroupId, targetResourceGroupId, outputFolderOption, ignoreTypeOption, replaceStringsFileOption, authenticationMethod);
+        rgCommand.SetAction(async parseResult =>
+        {
+            var sourceRg = parseResult.GetValue(sourceResourceGroupId);
+            var targetRg = parseResult.GetValue(targetResourceGroupId);
+            var outputFolder = parseResult.GetValue(outputFolderOption);
+            var typesToIgnore = parseResult.GetValue(ignoreTypeOption);
+            var replaceStringsFile = parseResult.GetValue(replaceStringsFileOption);
+            var credentialType = parseResult.GetValue(authenticationMethod);
+            return await CompareResourceGroups(sourceRg!, targetRg!, outputFolder!, typesToIgnore!, replaceStringsFile, credentialType);
+        });
 
-        return await rootCommand.InvokeAsync(args);
+        return rootCommand.Parse(args).Invoke();
     }
 
     internal static ArmTemplateComparer ArmTemplateComparer { get; set; } = new();
