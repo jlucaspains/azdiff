@@ -39,7 +39,9 @@ class AzureTemplateLoader : IAzureTemplateLoader
                 CredentialType.EnvironmentCredential => new EnvironmentCredential(),
                 CredentialType.WorkloadIdentityCredential => new WorkloadIdentityCredential(),
                 CredentialType.ManagedIdentityCredential => new ManagedIdentityCredential(),
+#pragma warning disable CS0618 // Type or member is obsolete
                 CredentialType.SharedTokenCacheCredential => new SharedTokenCacheCredential(),
+#pragma warning restore CS0618 // Type or member is obsolete
                 CredentialType.VisualStudioCodeCredential => new VisualStudioCodeCredential(),
                 CredentialType.VisualStudioCredential => new VisualStudioCredential(),
                 CredentialType.InteractiveBrowserCredential => new InteractiveBrowserCredential(),
